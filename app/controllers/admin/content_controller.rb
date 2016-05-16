@@ -26,6 +26,17 @@ class Admin::ContentController < Admin::BaseController
   def new
     new_or_edit
   end
+ 
+  def merge
+    if(current_user.admin?)
+        @article = Article.get_or_build_article(params[:merge_with])
+        @article.merge_with(params[:id1])
+        flash[:notice] = _("Merge between Article: #{params[:id1]} and Article: #{params[:merge_with]} was successful")
+    else
+      flash[:notice] = _("Error, you are not allowed to perform this action")
+    end
+    redirect_to :action => 'index'
+  end
 
   def edit
     @article = Article.find(params[:id])

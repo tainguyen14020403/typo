@@ -455,6 +455,12 @@ class Article < Content
     users << self.user if (self.user.notify_watch_my_articles? rescue false)
     self.notify_users = users.uniq
   end
+  def merge_with(other_article_id)
+       self.update_attribute(:body, self.body + Article.find(other_article_id).body)
+       other_article_comments = Comment.find_all_by_article_id(other_article_id)
+       other_article_comments.each {|comment| comment.update_attribute(:article_id, self.id) }
+       Article.find(other_article_id).destroy
+  end
 
   def self.time_delta(year = nil, month = nil, day = nil)
     return nil if year.nil? && month.nil? && day.nil?
