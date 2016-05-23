@@ -4,7 +4,26 @@ Feature: Access to Merge Articles
   I want to be able to merge articles
 
 Background: articles to be merged
-
+  
+   	Scenario: the merged article should have one author
+ 	  Given the blog is set up
+  	When I am logged in as a non-admin
+  	And I follow "New Article"
+  	And I fill in "article_title" with "Article1"
+  	And I fill in "article__body_and_extended_editor" with "test1"
+  	And I press "Publish"
+  	And I log out
+  	And I am logged into the admin panel
+  	And I follow "New Article"  	
+  	And I fill in "article_title" with "Article2"
+  	And I fill in "article__body_and_extended_editor" with "test2"
+  	And I press "Publish"
+  	And I follow "Articles"
+  	And I follow "Article1"
+    When I fill in "merge_with" with 1
+    And I press "Merge"
+  	And I follow "Articles"
+    And I should not see admin in author
   Scenario: An admin should be able to see the merge button
   	Given the blog is set up
   	When I am logged into the admin panel
@@ -14,7 +33,7 @@ Background: articles to be merged
   	And I press "Publish"
   	And I follow "Article 2"
   	Then I should see "Merge"
-  Scenario: The merged article should contain the text of both previous articles
+  Scenario: The merged article should contain the text of both previous articles and the title of the new article should be the title from either one of the merged articles.
    Given the blog is set up
   	When I am logged into the admin panel
   	And Article "test1" with id "1" body "test" exists
@@ -24,6 +43,7 @@ Background: articles to be merged
     When I fill in "merge_with" with 1
     And I press "Merge"
   	And I follow "Articles"
+  	And I should not see "test1"
   	And I follow "test2"
     Then I should see "test"
     Then I should see "test2"
