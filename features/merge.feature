@@ -53,3 +53,28 @@ Background: articles to be merged
  	  And I follow "All Articles"
  	  And I follow "Hello World!"
  	  Then I should not see "Merge"
+ 	  
+ 	Scenario: Comments on each of the two original articles need to all carry over and point to the new, merged article  
+ 	  Given the blog is set up
+  	When I am logged into the admin panel
+  	And I follow "New Article"
+  	And I fill in "article_title" with "Article1"
+  	And I fill in "article__body_and_extended_editor" with "test1"
+  	And I press "Publish"
+  	And I follow "New Article"
+  	And I fill in "article_title" with "Article2"
+  	And I fill in "article__body_and_extended_editor" with "test2"
+  	And I press "Publish"
+  	And I am on the home page
+    And I comment "Article1" with "comment1" by "ss"
+  	When I am on the home page
+    And I comment "Article2" with "comment2" by "aa"
+  	And I visit admin page
+  	And I follow "Articles" 
+  	And I follow "Article1" 
+  	When I fill in "merge_with" with 1 
+  	And I press "Merge"
+  	And I am on the home page
+  	And I click "Article2"
+    Then page should have "comment1"
+    Then page should have "comment2"
