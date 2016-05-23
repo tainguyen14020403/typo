@@ -49,7 +49,7 @@ Given /^the blog is set up$/ do
                 :state => 'active'})
 end
 
-Given /^I am logged into the non\-admin panel$/ do
+Given /^I am logged in as a non\-admin$/ do
   visit '/accounts/login'
   fill_in 'user_login', :with => 'test'
   fill_in 'user_password', :with => 'aaaaaaaa'
@@ -101,6 +101,10 @@ end
 
 When /^(?:|I )fill in "([^"]*)" with "([^"]*)"$/ do |field, value|
   fill_in(field, :with => value)
+end
+
+When /^I fill in "(.*?)" with (\d+)$/ do |arg1, arg2|
+  fill_in(arg1, :with => arg2)
 end
 
 When /^(?:|I )fill in "([^"]*)" for "([^"]*)"$/ do |value, field|
@@ -294,3 +298,4 @@ end
 Then /^show me the page$/ do
   save_and_open_page
 end
+
