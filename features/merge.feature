@@ -24,6 +24,8 @@ Background: articles to be merged
     And I press "Merge"
   	And I follow "Articles"
     And I should not see admin in author
+    
+    
   Scenario: An admin should be able to see the merge button
   	Given the blog is set up
   	When I am logged into the admin panel
@@ -33,6 +35,8 @@ Background: articles to be merged
   	And I press "Publish"
   	And I follow "Article 2"
   	Then I should see "Merge"
+  	
+  	
   Scenario: The merged article should contain the text of both previous articles and the title of the new article should be the title from either one of the merged articles.
    Given the blog is set up
   	When I am logged into the admin panel
@@ -47,6 +51,8 @@ Background: articles to be merged
   	And I follow "test2"
     Then I should see "test"
     Then I should see "test2"
+    
+    
   Scenario: A non-admin cannot merge two articles
   	Given the blog is set up
   	And I am logged in as a non-admin
@@ -70,9 +76,9 @@ Background: articles to be merged
   	When I am on the home page
     And I comment "Article2" with "comment2" by "aa"
   	And I visit admin page
-  	And I follow "Articles" 
+  	And I follow "All Articles" 
   	And I follow "Article1" 
-  	When I fill in "merge_with" with 1 
+  	When I fill in "merge_with" with 4
   	And I press "Merge"
   	And I am on the home page
   	And I click "Article2"
